@@ -40,7 +40,7 @@ export default {
 			const startDate = this.startDate.date
 			const dueDate = this.dueDate.date
 			if (startDate && dueDate) {
-				const from = startDate.date.slice(0, 6)
+				const from = startDate.slice(0, 6)
 				const to = dueDate.slice(0, 6)
 				return `${from} - ${to}`
 			}

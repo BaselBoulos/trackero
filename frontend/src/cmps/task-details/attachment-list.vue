@@ -2,7 +2,7 @@
 	<div v-if="task.attachments.length" class="task-detail-attachments">
 		<div class="window-module">
 			<div class="window-module-title">
-				<span class="attachments-icon icon-lg"></span>
+				<span class="icon-attachment icon-lg"></span>
 				<h3>Attachments</h3>
 			</div>
 			<div class="attachments-area clearfix">

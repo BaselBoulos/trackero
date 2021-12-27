@@ -1,14 +1,14 @@
 <template>
 	<div class="task-detail-activity window-module">
 		<div class="window-module-title">
-			<span class="activity-icon icon-lg"></span>
+			<span class="icon-activity icon-lg"></span>
 			<h3>Activity</h3>
 			<div class="window-module-title-options">
-				<a v-if="!isShowActivity" @click="toggleActivity" class="show-details-btn" href="#">Show details</a>
+				<a v-if="isShowActivity" @click="toggleActivity" class="show-details-btn" href="#">Show details</a>
 				<a v-else @click="toggleActivity" class="hide-details-btn" href="#">Hide details</a>
 			</div>
 		</div>
-		<div v-show="isShowActivity">
+		<div v-show="!isShowActivity">
 			<template v-for="(activity, idx) in task.activities">
 				<div class="activity-container" :key="idx">
 					<div class="activity">

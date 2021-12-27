@@ -1,5 +1,5 @@
 <template>
-	<aside>
+	<aside class="window-sidebar no-box-sizing">
 		<div v-if="!showSuggested" class="window-module suggested-actions-module">
 			<div class="suggested-actions-settings">
 				<span class="settings-icon icon-sm"></span>
@@ -31,7 +31,7 @@
 					<span class="sidebar-action-text">Watch</span>
 				</a>
 				<a class="button-link" title="Share" href="#">
-					<span class="icon-sm share-icon"></span>
+					<span class="icon-sm icon-share"></span>
 					<span @click="shareViaWebShare" class="sidebar-action-text">Share</span>
 				</a>
 				<a v-if="!task.isArchived" @click="handleTask('toggleArhive', task)" class="button-link" title="Archive">
@@ -70,7 +70,7 @@ export default {
 					{ title: 'Members', icon: 'icon-member', cmp: 'members-list' },
 					{ title: 'Labels', icon: 'icon-label', cmp: 'labels-list' },
 					{ title: 'Checklist', icon: 'icon-checklist', cmp: 'check-list' },
-					{ title: 'Dates', icon: 'icon-date', cmp: 'date-picker' },
+					{ title: 'Dates', icon: 'icon-clock', cmp: 'date-picker' },
 					{ title: 'Attachment', icon: 'icon-attachment', cmp: 'attachment-list' },
 					{ title: 'Cover', icon: 'icon-cover', cmp: 'cover-menu' }
 				]

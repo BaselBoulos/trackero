@@ -12,7 +12,7 @@
 			</div>
 		</div>
 		<div v-if="task.isArchived" class="card-is-archived">
-			<span class="icon-lg archive-icon"></span>
+			<span class="icon-lg icon-archive"></span>
 			<span class="sidebar-action-text">This card is archived</span>
 		</div>
 	</section>

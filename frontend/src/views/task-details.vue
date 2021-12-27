@@ -11,7 +11,7 @@
 						<attachmentList :task="task" @removeAttachment="removeAttachment" @toggleTaskImg="toggleTaskImg" />
 						<template v-if="task.checklists.length">
 							<template v-for="checklist in task.checklists">
-						<checkList :key="checklist.id" @updateTask="updateTask" @addTodo="addTodo" :task="task" :checklist="checklist"/>
+								<checkList :key="checklist.id" @updateTask="updateTask" @addTodo="addTodo" :task="task" :checklist="checklist" />
 							</template>
 						</template>
 						<taskComment
@@ -23,28 +23,26 @@
 						/>
 						<taskActivity :task="task" />
 					</div>
-					<div class="window-sidebar no-box-sizing">
-						<taskSidebar :task="task" @joinTask="joinTask" @toggleListCmp="toggleListCmp" @toggleArhive="toggleArhive" />
-						<task-opts-list
-							v-if="isListOpen"
-							:info="info"
-							:style="{
-								top: info.modalPos.posY + 'px',
-								left: info.modalPos.posX + 'px'
-							}"
-							@removeMember="removeTaskMember"
-							@addMember="addTaskMember"
-							@removeLabel="removeTaskLabel"
-							@addLabel="addTaskLabel"
-							@closeList="closeList"
-							@addCheckList="addCheckList"
-							@changeTaskCover="toggleTaskCover"
-							@removeTaskCover="toggleTaskCover"
-						/>
-					</div>
+					<taskSidebar :task="task" @joinTask="joinTask" @toggleListCmp="toggleListCmp" @toggleArhive="toggleArhive" />
 				</div>
 			</div>
 		</div>
+		<task-opts-list
+			v-if="isListOpen"
+			:info="info"
+			:style="{
+				top: info.modalPos.posY + 'px',
+				left: info.modalPos.posX + 'px'
+			}"
+			@removeMember="removeTaskMember"
+			@addMember="addTaskMember"
+			@removeLabel="removeTaskLabel"
+			@addLabel="addTaskLabel"
+			@closeList="closeList"
+			@addCheckList="addCheckList"
+			@changeTaskCover="toggleTaskCover"
+			@removeTaskCover="toggleTaskCover"
+		/>
 	</div>
 </template>
 
@@ -270,6 +268,6 @@ export default {
 			this.$store.dispatch({ type: 'removeTask', groupId: this.info.groupId, task })
 			this.closeDetails()
 		}
-	},
+	}
 }
 </script>

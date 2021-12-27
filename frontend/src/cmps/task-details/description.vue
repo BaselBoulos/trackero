@@ -2,7 +2,7 @@
 	<div class="task-detail-desc">
 		<div class="window-module">
 			<div class="window-module-title">
-				<span class="description-icon icon-lg"></span>
+				<span class="icon-description icon-lg"></span>
 				<h3>Description</h3>
 				<div v-show="!isEditing" class="editable">
 					<a @click="toggleEdit" href="#" class="nch-button edit-btn">Edit</a>
