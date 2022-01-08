@@ -16,7 +16,7 @@
 			<div class="u-clearfix">
 				<h3>Add to card</h3>
 				<template v-for="(option, idx) in options.cmps">
-					<a @click="toggleListCmp($event, option.cmp)" :key="idx" class="button-link" :title="option.title">
+					<a  @click="toggleListCmp($event, option.cmp)" class="button-link" :title="option.title" :key="option + idx">
 						<span class="icon-sm" :class="option.icon"></span>
 						<span class="sidebar-action-text">{{ option.title }}</span>
 					</a>
@@ -64,7 +64,6 @@ export default {
 	data() {
 		return {
 			loggedInUser: null,
-			isListOpen: false,
 			options: {
 				cmps: [
 					{ title: 'Members', icon: 'icon-member', cmp: 'members-list' },

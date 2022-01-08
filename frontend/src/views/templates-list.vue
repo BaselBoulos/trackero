@@ -1,17 +1,7 @@
 <template>
 	<section class="workspace-container-wrapper">
 		<div class="workspace-container">
-			<div
-				class="loader-gif"
-				v-if="!boards || !starred"
-				:style="{
-					display: 'flex',
-					'justify-content': 'center',
-					'align-items': 'center'
-				}"
-			>
-				<img :src="require(`@/assets/img/loader1.gif`)" :style="{ width: 200 + 'px', height: 200 + 'px' }" />
-			</div>
+			<loaderSpinner v-if="!boards || !starred"/>
 			<div class="boards-wrapper" v-if="boards && starred">
 				<div class="starred-boards">
 					<div class="preview-title" v-if="boards">
@@ -22,7 +12,7 @@
 					</div>
 					<div class="board-list" v-if="starred.length">
 						<router-link v-for="(board, idx) in starred" :key="idx" class="board-link" :to="`board/${board._id}`">
-							<div class="board-preview" :style="{ background: board.bgColor }">
+							<div class="board-preview" :style="{ background: board.bgColor, 'background-repeat': 'no-repeat', 'background-size': 'cover' }">
 								<div class="board-preview-details">
 									<h3>{{ board.title }}</h3>
 									<span @click.prevent="toggleIsStarred(board)" class="icon-lg icon-star board-star-btn-icon is-on"></span>
@@ -41,7 +31,10 @@
 					</div>
 					<div class="board-list">
 						<router-link v-for="(board, idx) in boards" :key="idx" class="board-link" :to="`/board/${board._id}`">
-							<div class="board-preview" :style="{ background: board.style.bgColor }">
+							<div
+								class="board-preview"
+								:style="{ background: board.style.bgColor, 'background-repeat': 'no-repeat', 'background-size': 'cover' }"
+							>
 								<div class="board-preview-details">
 									<h3>{{ board.title }}</h3>
 									<span class="icon-lg icon-star board-star-btn-icon" @click.prevent="toggleIsStarred(board)"></span>
@@ -73,10 +66,14 @@
 </template>
 
 <script>
-import { boardService } from './../services/board-service.js';
+import { boardService } from './../services/board-service.js'
+import loaderSpinner from '@/cmps/loader-spinner'
 
 export default {
 	name: 'templates-list',
+	components: {
+		loaderSpinner
+	},
 	data() {
 		return {
 			newBoard: {
@@ -88,68 +85,68 @@ export default {
 			starred: null,
 			isInputOpen: false,
 			loggedUser: null
-		};
+		}
 	},
 	async created() {
-		await this.$store.dispatch({ type: 'loadBoards' });
-		this.loggedUser = await this.$store.getters.currLoggedUser;
-		if(this.loggedUser) this.starred = this.loggedUser.starredBoards;
-		this.boards = this.$store.getters.boardsForDisplay;
+		await this.$store.dispatch({ type: 'loadBoards' })
+		this.loggedUser = await this.$store.getters.currLoggedUser
+		if (this.loggedUser) this.starred = this.loggedUser.starredBoards
+		this.boards = this.$store.getters.boardsForDisplay
 	},
 	methods: {
 		async addBoard() {
 			try {
-				if (!this.newBoard.title) return;
-				let boardToSave = boardService.getEmptyBoard();
-				const { _id, username, fullname, imgUrl } = this.loggedUser;
-				const { title, bgColor } = this.newBoard;
-				boardToSave.title = title;
-				if (boardToSave.style.bgColor !== '') boardToSave.style.bgColor = bgColor;
-				else boardToSave.style.bgColor = this.newBoard.bgColor;
-				boardToSave.createdBy = { _id, username, fullname, imgUrl };
-				await this.$store.dispatch({ type: 'addBoard', board: boardToSave });
-				this.boards = this.$store.getters.boardsForDisplay;
-				this.newBoard.title = '';
-				this.toggleInput();
+				if (!this.newBoard.title) return
+				let boardToSave = boardService.getEmptyBoard()
+				const { _id, username, fullname, imgUrl } = this.loggedUser
+				const { title, bgColor } = this.newBoard
+				boardToSave.title = title
+				if (boardToSave.style.bgColor !== '') boardToSave.style.bgColor = bgColor
+				else boardToSave.style.bgColor = this.newBoard.bgColor
+				boardToSave.createdBy = { _id, username, fullname, imgUrl }
+				await this.$store.dispatch({ type: 'addBoard', board: boardToSave })
+				this.boards = this.$store.getters.boardsForDisplay
+				this.newBoard.title = ''
+				this.toggleInput()
 			} catch (err) {
-				console.log(err);
+				console.log(err)
 			}
 		},
 		async removeBoard(boardId) {
 			try {
-				await this.$store.dispatch({ type: 'removeBoard', boardId });
-				await this.$store.dispatch({ type: 'loadBoards' });
-				this.boards = this.$store.getters.boardsForDisplay;
+				await this.$store.dispatch({ type: 'removeBoard', boardId })
+				await this.$store.dispatch({ type: 'loadBoards' })
+				this.boards = this.$store.getters.boardsForDisplay
 			} catch (err) {
-				console.log(err);
+				console.log(err)
 			}
 		},
 		async toggleIsStarred(board) {
 			try {
-				const boardId = board._id;
+				const boardId = board._id
 				if (this.loggedUser.starredBoards.length) {
-					var idx = this.loggedUser.starredBoards.findIndex(board => board._id === boardId);
+					var idx = this.loggedUser.starredBoards.findIndex(board => board._id === boardId)
 					if (idx === -1) {
-						const { _id, title, style } = board;
-						this.loggedUser.starredBoards.push({ _id, title, ...style });
-					} else this.loggedUser.starredBoards.splice(idx, 1);
+						const { _id, title, style } = board
+						this.loggedUser.starredBoards.push({ _id, title, ...style })
+					} else this.loggedUser.starredBoards.splice(idx, 1)
 				} else {
-					const { _id, title, style } = board;
-					this.loggedUser.starredBoards.push({ _id, title, ...style });
+					const { _id, title, style } = board
+					this.loggedUser.starredBoards.push({ _id, title, ...style })
 				}
-				await this.$store.dispatch({ type: 'updateUser', user: this.loggedUser });
-				await this.$store.dispatch({ type: 'loadBoards' });
+				await this.$store.dispatch({ type: 'updateUser', user: this.loggedUser })
+				await this.$store.dispatch({ type: 'loadBoards' })
 			} catch (err) {
-				console.log(err);
+				console.log(err)
 			}
 		},
 		async toggleInput() {
 			try {
-				this.isInputOpen = !this.isInputOpen;
+				this.isInputOpen = !this.isInputOpen
 			} catch (err) {
-				console.log(err);
+				console.log(err)
 			}
 		}
-	},
-};
+	}
+}
 </script>

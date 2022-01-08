@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import Avatar from 'vue-avatar';
+import Avatar from 'vue-avatar'
 export default {
 	name: 'members-list',
 	props: ['info'],
@@ -54,34 +54,34 @@ export default {
 			filterBy: {
 				name: ''
 			}
-		};
+		}
 	},
 	methods: {
 		toggleMember(user) {
-			const memberIdx = this.info.task.members.findIndex(member => member._id === user._id);
+			const memberIdx = this.info.task.members.findIndex(member => member._id === user._id)
 			if (memberIdx !== -1) {
-				this.$emit('removeMember', user);
+				this.$emit('removeMember', user)
 			} else {
-				this.$emit('addMember', user);
+				this.$emit('addMember', user)
 			}
 		},
 		isMember(id) {
-			const memberIdx = this.info.task.members.findIndex(member => member._id === id);
-			if (memberIdx !== -1) return 'icon-check';
-			else return '';
+			const memberIdx = this.info.task.members.findIndex(member => member._id === id)
+			if (memberIdx !== -1) return 'icon-check'
+			else return ''
 		},
 		closeList() {
-			this.$emit('closeList');
+			this.$emit('closeList')
 		}
 	},
 	computed: {
 		membersToDisplay() {
-			const { name } = this.filterBy;
-			const regex = new RegExp(name, 'i');
-			const members = this.$store.getters.boardMembers;
-			var filteredMembers = members.filter(member => regex.test(member.fullname));
-			return filteredMembers;
+			const { name } = this.filterBy
+			const regex = new RegExp(name, 'i')
+			const members = this.$store.getters.boardMembers
+			var filteredMembers = members.filter(member => regex.test(member.fullname))
+			return filteredMembers
 		}
 	}
-};
+}
 </script>

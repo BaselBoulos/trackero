@@ -1,5 +1,5 @@
 <template>
-	<div v-if="members.length" class="task-detail-item clearfix">
+	<div v-if="members.length" class="task-detail-item clearfix here">
 		<h3 class="task-detail-item-header">Members</h3>
 		<div v-if="members && members.length" class="task-detail-members-list">
 			<a class="member task-detail-member" v-for="member in members" :key="member._id" @click="toggleMiniProfile($event, member)">

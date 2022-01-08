@@ -34,6 +34,7 @@
 				top: info.modalPos.posY + 'px',
 				left: info.modalPos.posX + 'px'
 			}"
+			ref="optsList"
 			@removeMember="removeTaskMember"
 			@addMember="addTaskMember"
 			@removeLabel="removeTaskLabel"
@@ -130,11 +131,22 @@ export default {
 				this.$nextTick(() => {
 					this.isListOpen = true
 					eventBusService.$emit('closeMiniProfile')
-					this.info.modalPos.posY = ev.pageY + 20 // top
-					this.info.modalPos.posX = ev.pageX - 15 // left
+					this.$nextTick(() => {
+						const { width, height } = this.$refs.optsList.$el.getBoundingClientRect()
+						const popOverPos = this.getPopoverPos(ev.pageX, ev.pageY, width, height)
+						this.info.modalPos = popOverPos
+					})
 					this.info.type = cmpName
 				})
 			}
+		},
+		getPopoverPos(pageX, pageY, width, height) {
+			let posX = window.innerWidth - pageX > 200 ? pageX - 200 : pageX - 200
+			let posY = window.innerHeight - pageY > 200 ? pageY + 20 : pageY - 200
+			posX = posX + width > window.innerWidth ? window.innerWidth - width - 15 : posX
+			posY = posY + height > window.innerHeight ? window.innerHeight - height - 20 : posY
+			if (posX < 0) posX = 15
+			return { posY, posX }
 		},
 		getTask(taskId) {
 			const currBoard = this.$store.getters.currBoard

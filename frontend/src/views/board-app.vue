@@ -1,16 +1,6 @@
 <template>
 	<section class="board-app">
-		<div
-			class="loader-gif"
-			v-if="!board"
-			:style="{
-				display: 'flex',
-				'justify-content': 'center',
-				'align-self': 'center'
-			}"
-		>
-			<img :src="require(`@/assets/img/loader1.gif`)" :style="{ width: 200 + 'px', height: 200 + 'px' }" />
-		</div>
+		<loaderSpinner v-if="!board" />
 		<div v-else class="board-wrapper" :class="{ 'is-show-menu': isBoardMenuOpen }">
 			<div class="task-detail-modal-container">
 				<div class="modal-content">
@@ -103,14 +93,14 @@
 </template>
 
 <script>
-import groupPreview from '@/cmps/group-preview';
-import boardNav from '@/cmps/board-nav';
-import boardNavSideMenu from '@/cmps/board-side-menu/board-sidemenu';
-import taskPreviewEdit from '@/cmps/task-preview-edit.vue';
-import { Container, Draggable } from 'vue-smooth-dnd';
-import { applyDrag } from '@/services/applyDrag.js';
-
-import { socketService } from '../services/socket-service.js';
+import groupPreview from '@/cmps/group-preview'
+import boardNav from '@/cmps/board-nav'
+import boardNavSideMenu from '@/cmps/board-side-menu/board-sidemenu'
+import taskPreviewEdit from '@/cmps/task-preview-edit.vue'
+import { Container, Draggable } from 'vue-smooth-dnd'
+import { applyDrag } from '@/services/applyDrag.js'
+import { socketService } from '../services/socket-service.js'
+import loaderSpinner from '@/cmps/loader-spinner'
 
 export default {
 	name: 'board-app',
@@ -120,7 +110,8 @@ export default {
 		boardNavSideMenu,
 		taskPreviewEdit,
 		Container,
-		Draggable
+		Draggable,
+		loaderSpinner
 	},
 	data() {
 		return {
@@ -138,75 +129,75 @@ export default {
 				animationDuration: '0',
 				showOnTop: false
 			}
-		};
+		}
 	},
 	created() {
-		socketService.on('boardUpdate', this.loadBoard);
+		socketService.on('boardUpdate', this.loadBoard)
 	},
 	computed: {
 		archivedList() {
-			return this.$store.getters.allBoardTasks.filter(task => task.isArchived);
+			return this.$store.getters.allBoardTasks.filter(task => task.isArchived)
 		},
 		boardGroups() {
-			return this.$store.getters.boardGroups;
+			return this.$store.getters.boardGroups
 		}
 	},
 	methods: {
 		async addGroup() {
 			try {
-				if (!this.newListTitleInput) return;
-				var group = JSON.parse(JSON.stringify(this.$store.getters.getEmptyGroup));
-				group.title = this.newListTitleInput;
-				await this.$store.dispatch({ type: 'addGroup', group });
-				this.newListTitleInput = '';
-				this.isListInputOpen = false;
+				if (!this.newListTitleInput) return
+				var group = JSON.parse(JSON.stringify(this.$store.getters.getEmptyGroup))
+				group.title = this.newListTitleInput
+				await this.$store.dispatch({ type: 'addGroup', group })
+				this.newListTitleInput = ''
+				this.isListInputOpen = false
 			} catch (err) {
-				console.log(err);
+				console.log(err)
 			}
 		},
 		toggleInput() {
-			this.isListInputOpen = !this.isListInputOpen;
+			this.isListInputOpen = !this.isListInputOpen
 		},
 		toggleModalClass(ev) {
-			this.isModalOpen = true;
+			this.isModalOpen = true
 		},
 		async loadBoard(boardId) {
 			try {
-				const currBoard = await this.$store.dispatch({ type: 'getBoardbyId', boardId });
-				currBoard.members = this.$store.getters.users;
-				this.board = currBoard;
+				const currBoard = await this.$store.dispatch({ type: 'getBoardbyId', boardId })
+				currBoard.members = this.$store.getters.users
+				this.board = currBoard
 			} catch (err) {
-				console.log(err);
+				console.log(err)
 			}
 		},
 		toggleBoardNavMenu(ev) {
-			this.isBoardMenuOpen = !this.isBoardMenuOpen;
+			this.isBoardMenuOpen = !this.isBoardMenuOpen
 		},
 		onlyOneEdit(group, task, modalPos) {
-			this.isPreviewEdit = true;
-			this.task = task;
-			this.group = group;
-			this.modalPos = modalPos;
+			this.isPreviewEdit = true
+			this.task = task
+			this.group = group
+			this.modalPos = modalPos
 		},
 		closePreviewEdit() {
-			this.isPreviewEdit = false;
+			this.isPreviewEdit = false
 		},
 		async restoreTask(task) {
 			try {
-				task.isArchived = false;
-				const groupId = await this.$store.dispatch({ type: 'getGroupIdByTaskId', taskId: task.id });
-				await this.$store.dispatch({ type: 'updateTask', groupId, task });
+				task.isArchived = false
+				const groupId = await this.$store.dispatch({ type: 'getGroupIdByTaskId', taskId: task.id })
+				await this.$store.dispatch({ type: 'updateTask', groupId, task })
 			} catch (err) {
-				console.log(err);
+				console.log(err)
 			}
 		},
 		async onDrop(items, dropResult) {
-			const groups = applyDrag(items, dropResult);
-			this.board.groups = groups;
-			this.$store.dispatch({ type: 'updateGroups', groups });
+			const groups = applyDrag(items, dropResult)
+			this.board.groups = groups
+			this.$store.dispatch({ type: 'updateGroups', groups })
 		},
 		getChildPayload(index) {
-			return this.board.groups[index];
+			return this.board.groups[index]
 		}
 	},
 	watch: {
@@ -215,14 +206,14 @@ export default {
 			deep: true,
 			async handler() {
 				try {
-					this.loadBoard(this.$route.params.boardId);
-					let taskId = this.$route.params.taskId;
-					if (taskId) this.isModalOpen = true;
+					this.loadBoard(this.$route.params.boardId)
+					let taskId = this.$route.params.taskId
+					if (taskId) this.isModalOpen = true
 				} catch (err) {
-					console.log(err);
+					console.log(err)
 				}
 			}
 		}
 	}
-};
+}
 </script>
