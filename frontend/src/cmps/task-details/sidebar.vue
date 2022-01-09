@@ -26,10 +26,10 @@
 		<div class="window-module clearfix action-buttons">
 			<h3 class="no-top-margin">Actions</h3>
 			<div class="clearfix u-clearfix">
-				<a class="button-link" title="Watch the card to get notifications when something changes." href="#">
+				<!-- <a class="button-link" title="Watch the card to get notifications when something changes." href="#">
 					<span class="icon-sm icon-watch"></span>
 					<span class="sidebar-action-text">Watch</span>
-				</a>
+				</a> -->
 				<a class="button-link" title="Share" href="#">
 					<span class="icon-sm icon-share"></span>
 					<span @click="shareViaWebShare" class="sidebar-action-text">Share</span>

@@ -25,11 +25,14 @@ export default {
 		task: Object,
 		required: true
 	},
-    methods:{
-        closeDetails(){
-            this.$emit('closeDetails')
-        }
-    },
+	methods: {
+		closeDetails() {
+			this.$emit('closeDetails')
+		},
+		toggleListCmp(ev, cmpName) {
+			this.$emit('toggleListCmp', ev, cmpName)
+		}
+	},
 	computed: {
 		taskCover() {
 			const cover = this.task.style

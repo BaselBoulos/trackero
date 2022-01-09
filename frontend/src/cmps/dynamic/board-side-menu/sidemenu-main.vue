@@ -62,7 +62,7 @@
             </div>
          </template>
       </div>
-      <a @click="fillActivities" class="show-more fill-activity-btn">View all activity...</a>
+      <!-- <a @click="fillActivities" class="show-more fill-activity-btn">View all activity...</a> -->
    </div>
 </template>
 

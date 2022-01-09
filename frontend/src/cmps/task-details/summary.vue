@@ -2,7 +2,7 @@
 	<div class="task-detail-data clearfix">
 		<memberList :members="task.members" @removeTaskMember="removeTaskMember" @toggleListCmp="toggleListCmp" />
 		<labelList :labels="task.labels" @toggleListCmp="toggleListCmp" />
-		<dateList :startDate="task.startDate" :dueDate="task.dueDate" />
+		<dateList :startDate="task.startDate" :dueDate="task.dueDate" @toggleListCmp="toggleListCmp" />
 	</div>
 </template>
 

@@ -8,7 +8,7 @@
 				</span>
 			</a>
 			<div class="content-container">
-				<button class="dates-btn">
+				<button class="dates-btn" @click="toggleListCmp($event, 'date-picker')">
 					<span>{{ dateToShow }}</span>
 					<span class="icon-container">
 						<span class="open-dates-icon">
@@ -34,6 +34,11 @@ export default {
 		required: true,
 		dueDate: Object,
 		required: true
+	},
+	methods: {
+		toggleListCmp(ev, cmpName) {
+			this.$emit('toggleListCmp', ev, cmpName)
+		}
 	},
 	computed: {
 		dateToShow() {

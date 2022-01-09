@@ -3,7 +3,7 @@
 		<div class="window">
 			<div class="window-wrapper">
 				<div class="task-detail clearfix">
-					<taskCover :task="task" @closeDetails="closeDetails" />
+					<taskCover :task="task" @toggleListCmp="toggleListCmp" @closeDetails="closeDetails" />
 					<taskTitle :task="task" @changeTaskTitle="changeTaskTitle" />
 					<div class="window-main-col no-box-sizing">
 						<taskSummary :task="task" @removeTaskMember="removeTaskMember" @toggleListCmp="toggleListCmp" />
@@ -141,7 +141,7 @@ export default {
 			}
 		},
 		getPopoverPos(pageX, pageY, width, height) {
-			let posX = window.innerWidth - pageX > 200 ? pageX - 200 : pageX - 200
+			let posX = pageX - 200
 			let posY = window.innerHeight - pageY > 200 ? pageY + 20 : pageY - 200
 			posX = posX + width > window.innerWidth ? window.innerWidth - width - 15 : posX
 			posY = posY + height > window.innerHeight ? window.innerHeight - height - 20 : posY

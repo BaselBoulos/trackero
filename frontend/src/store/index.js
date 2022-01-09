@@ -10,7 +10,9 @@ import TextareaAutosize from 'vue-textarea-autosize'
 import VCalendar from 'v-calendar'
 import moment from 'moment'
 import VueDragscroll from 'vue-dragscroll'
+import GSignInButton from 'vue-google-signin-button'
 
+Vue.use(GSignInButton)
 Vue.use(VueDragscroll)
 Vue.prototype.moment = moment
 Vue.use(TextareaAutosize)

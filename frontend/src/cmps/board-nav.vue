@@ -243,7 +243,7 @@ export default {
 				let userToUpdate = this.loggedUser
 				const idx = userToUpdate.subscribedTo.findIndex(board => board === this.board._id)
 				idx === -1 ? userToUpdate.subscribedTo.push(this.board._id) : userToUpdate.subscribedTo.splice(idx, 1)
-				this.$store.dispatch('saveUser', { user: userToUpdate })
+				this.$store.dispatch('updateUser', { user: userToUpdate })
 			} catch (err) {
 				console.log(err)
 			}
@@ -257,7 +257,7 @@ export default {
 					const { _id, title, style } = this.board
 					userToUpdate.starredBoards.push({ _id, title, ...style })
 				} else userToUpdate.starredBoards.splice(idx, 1)
-				await this.$store.dispatch({ type: 'saveUser', user: userToUpdate })
+				await this.$store.dispatch({ type: 'updateUser', user: userToUpdate })
 			} catch (err) {
 				console.log(err)
 			}
