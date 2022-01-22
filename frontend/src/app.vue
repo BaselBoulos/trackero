@@ -1,7 +1,7 @@
 <template>
 	<div id="app">
 		<main :style="setBg">
-			<app-header :key="$route.fullPath" v-if="!isHomePage && !isLogging && loggedUser" />
+			<app-header :key="$route.fullPath" v-if="!isShowHeader && loggedUser" />
 			<router-view />
 			<!-- <loading-overlay v-else /> -->
 			<!-- {{ loggedUser }} -->
@@ -35,11 +35,8 @@ export default {
 		loggedUser() {
 			return this.$store.getters.currLoggedUser
 		},
-		isHomePage() {
-			return this.$route.name === 'home' ? true : false
-		},
-		isLogging() {
-			return this.$route.name === 'login' || this.$route.name === 'signup' ? true : false
+		isShowHeader() {
+			return this.$route.name === 'home' || this.$route.name === 'login' ? true : false
 		}
 	}
 }

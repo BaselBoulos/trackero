@@ -1,0 +1,81 @@
+.login-signup-page {
+	height: 100vh;
+	background-color: #f8f0f8;
+	display: grid;
+	.login-signup-header {
+		color: #293856;
+		margin: auto;
+		gap: 10px;
+		@include flex-row-center;
+		h3 {
+			font-size: 40px;
+			margin: 0;
+			font-weight: 700;
+		}
+	}
+	.login-signup {
+		@include flex-column-center;
+		max-width: 400px;
+		height: fit-content;
+		margin: 0 auto;
+		gap: 15px;
+		background-color: #fff;
+		border-radius: 3px;
+		padding: 25px 40px;
+		box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		.login-form {
+			display: flex;
+			flex-direction: column;
+			input {
+				font-size: 1rem;
+				background-color: #fafbfc;
+				border-radius: 3px;
+				border: 2px solid #dfe1e6;
+				height: 44px;
+				padding: 7px;
+				transition: background-color 0.2s ease-in-out 0s, border-color 0.2s ease-in-out 0s;
+				margin-bottom: 17px;
+				outline: none;
+			}
+			.login-signup-btn {
+				@include flex-row-center;
+				color: rgb(23, 43, 77);
+				border: none;
+				background-color: rgba(223, 224, 219, 0.235);
+				height: 32px;
+				border-radius: 3px;
+				transition: all 0.3s;
+				&:hover {
+					background-color: rgba(223, 224, 219, 0.37);
+				}
+			}
+		}
+		.google-login-btn {
+			@include flex-row-center;
+			background-color: rgb(255, 255, 255);
+			border: none;
+			display: inline-flex;
+			color: rgba(0, 0, 0, 0.54);
+			box-shadow: rgba(0, 0, 0, 0.24) 0px 2px 2px 0px, rgba(0, 0, 0, 0.24) 0px 0px 1px 0px;
+			border-radius: 2px;
+			border: 1px solid transparent;
+			font-size: 14px;
+			font-family: Roboto, sans-serif;
+			.svg-wrapper {
+				margin-right: 10px;
+				background: rgb(255, 255, 255);
+				padding: 10px;
+				border-radius: 2px;
+			}
+			.txt-span {
+				padding: 10px 10px 10px 0px;
+				font-weight: 500;
+			}
+		}
+	}
+	.right-svg,
+	.left-svg {
+		position: absolute;
+		bottom: 0;
+	}
+}

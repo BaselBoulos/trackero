@@ -1,6 +1,6 @@
 <template>
-	<section class="login-signup-page main-container">
-		<div class="login-signup-header">
+	<section class="login-signup-page">
+		<router-link to="/" class="login-signup-header">
 			<svg
 				role="img"
 				alt="Trackero"
@@ -24,22 +24,23 @@
 				</g>
 			</svg>
 			<h3 class="logo-text">Trackero</h3>
-		</div>
-		<div class="login-signup flex column">
-			<h3>Log in to Trackero</h3>
-			<form @submit.prevent="doLogin" class="login-form flex column">
-				<input name="username" type="username" placeholder="Enter user name" autocomplete="off" v-model="usernameInput" /><input
+		</router-link>
+		<div class="login-signup">
+			<h3 class="userAuth-title">
+				{{ isLogin ? 'Log in' : 'Sign Up' }}
+			</h3>
+			<form @submit.prevent="doLogin" class="login-form">
+				<input v-if="!isLogin" name="fullname" type="fullname" placeholder="Enter Full name" autocomplete="off" v-model="fullnameInput" />
+				<input name="username" type="username" placeholder="Enter Username" autocomplete="off" v-model="usernameInput" /><input
 					name="password"
 					type="password"
-					placeholder="Enter password"
+					placeholder="Enter Password"
 					autocomplete="off"
 					v-model="passwordInput"
-				/><button type="submit" class="login-signup-btn nav-button" style="color: rgb(23, 43, 77)">Log in</button>
+				/><button type="submit" class="login-signup-btn nav-button" style="color: rgb(23, 43, 77)">{{ isLogin ? 'Log in' : 'Sign Up' }}</button>
 			</form>
-			OR<br />
-			<!-- <div class="g-signin2"  data-onsuccess="onSignIn"></div> -->
 			<g-signin-button :params="googleSignInParams" @success="onSignInSuccess" @error="onSignInError">
-				<button type="button" class="google-login-btn flex align-center justify-center">
+				<button type="button" class="google-login-btn">
 					<div class="svg-wrapper">
 						<svg width="18" height="18" xmlns="http://www.w3.org/2000/svg">
 							<g fill="#000" fill-rule="evenodd">
@@ -63,11 +64,12 @@
 							</g>
 						</svg>
 					</div>
+
 					<span class="txt-span">Continue with Google</span>
 				</button>
 			</g-signin-button>
 			<a @click="doLogout">Sign out</a>
-			<a class="signup-link" href="#/signup">Sign up for an account</a>
+			<a class="signup-link" @click="switchForm">{{ isLogin ? 'Sign up for an account' : 'Already have an account? Log In' }}</a>
 		</div>
 		<div class="right-svg">
 			<img :src="require(`@/assets/img/login-right.svg`)" />
@@ -82,11 +84,10 @@ import { userService } from '../services/user-service.js'
 export default {
 	data() {
 		return {
+			isLogin: true,
 			username: '',
 			password: '',
 			user: null,
-			reviews: [],
-			userId: null,
 			usernameInput: '',
 			passwordInput: '',
 			fullnameInput: '',
@@ -98,11 +99,13 @@ export default {
 	},
 	created() {
 		this.loadUsers()
-		this.userId = this.$store.getters.loggedinUserId || null
 	},
 	methods: {
+		switchForm() {
+			this.isLogin = !this.isLogin
+		},
 		onSignInSuccess(googleUser) {
-			const profile = googleUser.getBasicProfile() // etc etc
+			const profile = googleUser.getBasicProfile()
 			this.tokenId = googleUser.getAuthResponse().id_token
 			this.onSignIn(profile)
 		},
@@ -117,19 +120,27 @@ export default {
 			})
 			this.user = user
 			this.$store.commit({ type: 'setLoggedUser', user })
-			this.userId = this.$store.getters.loggedUserId
 			this.$router.push('/board')
 		},
 		async doLogin() {
 			try {
-				const user = await this.$store.dispatch({
-					type: 'login',
-					username: this.usernameInput,
-					password: this.passwordInput
-				})
-				this.user = user
-				this.$store.commit({ type: 'setLoggedUser', user })
-				this.userId = this.$store.getters.loggedUserId
+				if (this.isLogin) {
+					const user = await this.$store.dispatch({
+						type: 'login',
+						username: this.usernameInput,
+						password: this.passwordInput
+					})
+					this.user = user
+				} else {
+					const user = await this.$store.dispatch({
+						type: 'signup',
+						username: this.usernameInput,
+						password: this.passwordInput,
+						fullname: this.fullnameInput
+					})
+					this.user = user
+				}
+				this.$store.commit({ type: 'setLoggedUser', user: this.user })
 				this.$router.push('/board')
 			} catch (err) {
 				console.log(err)
@@ -140,7 +151,6 @@ export default {
 				this.$store.dispatch({ type: 'logout' })
 				const ans = await userService.logout()
 				this.user = null
-				this.userId = null
 				this.$router.go()
 			} catch (err) {
 				console.log(err)
@@ -148,21 +158,6 @@ export default {
 		},
 		loadUsers() {
 			this.$store.dispatch({ type: 'loadUsers' })
-		},
-		async removeUser(userId) {
-			try {
-				await this.$store.dispatch({ type: 'removeUser', userId })
-			} catch (err) {
-				console.log('Failed to remove user')
-			}
-		}
-	},
-	computed: {
-		getLoggedinUser() {
-			return this.$store.getters.loggedinUser || ''
-		},
-		users() {
-			return this.$store.getters.users
 		}
 	}
 }

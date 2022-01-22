@@ -46,17 +46,17 @@
 </template>
 
 <script>
-import { Locale } from 'v-calendar';
-const locale = new Locale();
-const mask = 'MMM DD YYYY';
+import { Locale } from 'v-calendar'
+const locale = new Locale()
+const mask = 'MMM DD YYYY'
 export default {
 	name: 'datePicker',
 	props: ['info'],
 	components: {},
 	async created() {
-		this.firstStartDate = this.info.task.startDate.date || '';
-		this.firstdueDate = this.info.task.dueDate.date || '';
-		this.groupId = await this.$store.dispatch({ type: 'getGroupIdByTaskId', taskId: this.info.task.id });
+		this.firstStartDate = this.info.task.startDate.date || ''
+		this.firstdueDate = this.info.task.dueDate.date || ''
+		this.groupId = await this.$store.dispatch({ type: 'getGroupIdByTaskId', taskId: this.info.task.id })
 	},
 	data() {
 		return {
@@ -71,82 +71,61 @@ export default {
 			firstStartDate: null,
 			firstdueDate: null,
 			groupId: null
-		};
+		}
 	},
 	computed: {
 		value: {
 			get() {
-				return this.valueString ? locale.parse(this.valueString, mask) : null;
+				return this.valueString ? locale.parse(this.valueString, mask) : null
 			},
 			set(val) {
-				this.valueString = val ? locale.format(val, mask) : '';
+				this.valueString = val ? locale.format(val, mask) : ''
 			}
 		},
-		taskStart() {
-			return this.task.startDate.date || '';
-		},
-		taskDue() {
-			return this.task.dueDate.date || '';
-		},
-		// startChecked() {
-		//    return this.task.startDate.date || false
-		// },
-		dueChecked() {
-			return this.task.dueDate.date || false;
-		},
-		valueStringTemp() {
-			if (this.isStartShow && this.task.startDate.date) return this.task.startDate.date;
-			else if (!this.isStartShow && !this.task.startDate.date) return this.task.dueDate.date;
-			else return false;
-		},
 		totalDates() {
-			let str = '';
-			str += this.task.startDate.date + ' - ' + this.task.dueDate.date;
-			return str;
+			let str = ''
+			str += this.task.startDate.date + ' - ' + this.task.dueDate.date
+			return str
 		}
 	},
 	methods: {
 		closeList() {
-			this.$emit('closeList');
+			this.$emit('closeList')
 		},
 		addActivity(txt) {
 			const activity = {
 				txt,
 				byMember: this.$store.getters.currLoggedUser,
 				createdAt: Date.now()
-			};
-			this.task.activities.unshift(activity);
+			}
+			this.task.activities.unshift(activity)
 		},
 		saveDates() {
-			this.closeList();
+			this.closeList()
 		},
 		async removeDates() {
 			try {
-				this.task.startDate.date = '';
-				this.task.dueDate.date = '';
-				this.addActivity(`Removed new dates`);
-				await this.$store.dispatch({ type: 'updateTask', groupId: this.groupId, task: this.task });
-				this.closeList();
+				this.task.startDate.date = ''
+				this.task.dueDate.date = ''
+				this.addActivity(`Removed new dates`)
+				await this.$store.dispatch({ type: 'updateTask', groupId: this.groupId, task: this.task })
+				this.closeList()
 			} catch (err) {
-				console.log(err);
+				console.log(err)
 			}
 		}
 	},
 	watch: {
-		async valueString(val) {
-			try {
-				if (this.isStartShow) {
-					this.task.startDate.date = val;
-					this.addActivity(`Added new start date ${val}`);
-				} else {
-					this.task.dueDate.date = val;
-					this.addActivity(`Added new due date ${val}`);
-				}
-				await this.$store.dispatch({ type: 'updateTask', groupId: this.groupId, task: this.task });
-			} catch (err) {
-				console.log(err);
+		valueString(val) {
+			if (this.isStartShow) {
+				this.task.startDate.date = val
+				this.addActivity(`Added new start date ${val}`)
+			} else {
+				this.task.dueDate.date = val
+				this.addActivity(`Added new due date ${val}`)
 			}
+			this.$store.dispatch({ type: 'updateTask', groupId: this.groupId, task: this.task })
 		}
 	}
-};
+}
 </script>

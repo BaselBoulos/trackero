@@ -23,7 +23,5 @@ export default {
          this.currCmp = cmp
       }
    },
-   computed: {
-   }
 }
 </script>

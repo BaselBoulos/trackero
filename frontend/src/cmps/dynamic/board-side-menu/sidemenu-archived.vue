@@ -167,16 +167,9 @@ export default {
 		}
 	},
 	computed: {
-		// archivedList() {
-		//    return this.$store.getters.allBoardTasks.filter(task => task.isArchived)
-		// },
 		getChecked() {
 			return this.$store.getters.checked
 		},
-		labelsHeight() {
-			if (this.board.isLabelsShown) return 16
-			return 8
-		}
 	}
 }
 </script>

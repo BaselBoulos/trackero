@@ -2,19 +2,9 @@
 	.hero-img {
 		display: none;
 	}
-	.login-signup {
-		margin-bottom: 175px;
-	}
-	.right-svg {
-		display: none;
-	}
+	.right-svg,
 	.left-svg {
-		position: absolute;
-		bottom: 0;
-		left: 50%;
-		transform: translateX(-50%);
-		width: 300px;
-		text-align: center;
+		display: none;
 	}
 }
 
@@ -22,7 +12,6 @@
 	.home-container {
 		text-align: center;
 		max-width: 525px;
-		flex-direction: column;
 		.hero {
 			align-items: center;
 			min-height: 50vh;
@@ -45,48 +34,15 @@
 		}
 	}
 	.right-svg {
-		position: absolute;
-		bottom: 0;
 		right: 0;
-		img {
-			width: 100%;
-			object-fit: cover;
-		}
 	}
 	.left-svg {
-		position: absolute;
-		bottom: 0;
 		left: 0;
-		img {
-			width: 100%;
-			object-fit: cover;
-		}
-	}
-}
-
-@media screen and (max-width: 768px) {
-	.main-container {
-		display: grid;
-		grid-template-columns: 20px 1fr 20px;
-		> * {
-			grid-column: 2;
-		}
 	}
 }
 
 @media screen and (min-width: 768px) {
-	.main-container {
-		display: grid;
-		grid-template-columns:
-			minmax(20px, 1fr)
-			minmax(auto, 728px)
-			minmax(20px, 1fr);
-		> * {
-			grid-column: 2;
-		}
-	}
 	.home-container {
-		flex-direction: column;
 		text-align: left;
 		max-width: 768px;
 		.hero {
@@ -122,15 +78,7 @@
 					flex: 0 0 41.666%;
 					max-width: 41.667%;
 				}
-				.mb-md-0 {
-					margin-bottom: 0;
-				}
-
 				.col-md-7 {
-					display: flex;
-					flex-direction: column;
-					align-items: center;
-					justify-content: space-evenly;
 					flex: 0 0 58.333%;
 					max-width: 58.333%;
 					.text-sm-header {
@@ -141,24 +89,10 @@
 			}
 		}
 	}
-	.login-signup {
-		grid-template-columns: minmax(20px, 1fr) minmax(auto, 720px) minmax(20px, 1fr);
-	}
 }
 
 @media screen and (min-width: 960px) {
-	.main-container {
-		display: grid;
-		grid-template-columns:
-			minmax(20px, 1fr)
-			minmax(auto, 920px)
-			minmax(20px, 1fr);
-		> * {
-			grid-column: 2;
-		}
-	}
 	.home-container {
-		flex-direction: column;
 		text-align: center;
 		max-width: 960px;
 		.hero {
@@ -193,7 +127,6 @@
 
 @media screen and (min-width: 1140px) {
 	.home-container {
-		flex-direction: column;
 		text-align: center;
 		max-width: 1140px;
 	}

@@ -188,6 +188,5 @@ export default {
 			return this.group.tasks[index]
 		}
 	},
-	computed: {}
 }
 </script>
