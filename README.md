@@ -19,7 +19,7 @@ Manage project by creating a Board, Create, Remove, Update, Drag and Drop lists 
 
 CRUD New members, labels, date, attachments, cover, and checklists, and view each task activity and comments,
 
-Ability to Archive tasks and view them separately, Change the board background with photos from Unsplash Photo API, 
+Ability to Archive tasks and view them separately, Change the board background with photos from Unsplash Photo API.
 
 Share your board with Web Share API.
 
